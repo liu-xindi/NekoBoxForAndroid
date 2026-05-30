@@ -19,4 +19,5 @@ type BoxPlatformInterface interface {
 	PackageNameByUid(uid int32) (string, error)
 	UIDByPackageName(packageName string) (int32, error)
 	WIFIState() string
+	GetInterfaces() (string, error)
 }

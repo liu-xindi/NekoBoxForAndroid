@@ -363,7 +363,9 @@ fun buildConfig(
                             buildSingBoxOutboundWireguardBean(bean)
 
                         is TailscaleBean ->
-                            buildSingBoxEndpointTailscaleBean(bean)
+                            buildSingBoxEndpointTailscaleBean(bean).apply {
+                                domain_resolver = if (forTest) "dns-direct" else "dns-remote"
+                            }
 
                         is SSHBean ->
                             buildSingBoxOutboundSSHBean(bean)

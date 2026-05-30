@@ -3859,6 +3859,8 @@ public class SingBoxOptions {
 
         public String bind_interface;
 
+        public String domain_resolver;
+
         public String state_directory;
 
         public String auth_key;

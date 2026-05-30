@@ -17,7 +17,11 @@ import io.nekohasekai.sagernet.utils.PackageCache
 import libcore.BoxPlatformInterface
 import libcore.Libcore
 import libcore.NB4AInterface
+import org.json.JSONArray
+import org.json.JSONObject
 import java.net.InetSocketAddress
+import java.net.NetworkInterface
+import java.util.Collections
 
 class NativeInterface : BoxPlatformInterface, NB4AInterface {
 
@@ -73,6 +77,33 @@ class NativeInterface : BoxPlatformInterface, NB4AInterface {
             app.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val connectionInfo = wifiManager.connectionInfo
         return "${connectionInfo.ssid},${connectionInfo.bssid}"
+    }
+
+    override fun getInterfaces(): String {
+        val arr = JSONArray()
+        val enumeration = NetworkInterface.getNetworkInterfaces() ?: return "[]"
+        for (ni in Collections.list(enumeration)) {
+            try {
+                val obj = JSONObject()
+                obj.put("index", ni.index)
+                obj.put("mtu", try { ni.mtu } catch (_: Exception) { 0 })
+                obj.put("name", ni.name)
+                val addrs = JSONArray()
+                for (ia in ni.interfaceAddresses) {
+                    val ip = ia.address?.hostAddress ?: continue
+                    addrs.put("$ip/${ia.networkPrefixLength}")
+                }
+                obj.put("addresses", addrs)
+                obj.put("isUp", ni.isUp)
+                obj.put("isLoopback", ni.isLoopback)
+                obj.put("isPointToPoint", ni.isPointToPoint)
+                obj.put("supportsMulticast", ni.supportsMulticast())
+                arr.put(obj)
+            } catch (_: Exception) {
+                // skip interfaces that error out (e.g. removed mid-enumeration)
+            }
+        }
+        return arr.toString()
     }
 
     // nb4a interface

@@ -3,10 +3,10 @@ package libcore
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"libcore/procfs"
 	"log"
+	"net"
 	"net/netip"
 	"strings"
 	"syscall"
@@ -14,10 +14,12 @@ import (
 	"github.com/matsuridayo/libneko/neko_log"
 	"github.com/sagernet/sing-box/adapter"
 	"github.com/sagernet/sing-box/common/process"
+	C "github.com/sagernet/sing-box/constant"
 	"github.com/sagernet/sing-box/experimental/libbox/platform"
 	sblog "github.com/sagernet/sing-box/log"
 	"github.com/sagernet/sing-box/option"
 	tun "github.com/sagernet/sing-tun"
+	"github.com/sagernet/sing/common/control"
 	E "github.com/sagernet/sing/common/exceptions"
 	"github.com/sagernet/sing/common/logger"
 	N "github.com/sagernet/sing/common/network"
@@ -93,7 +95,66 @@ func (w *boxPlatformInterfaceWrapper) UsePlatformInterfaceGetter() bool {
 }
 
 func (w *boxPlatformInterfaceWrapper) Interfaces() ([]adapter.NetworkInterface, error) {
-	return nil, errors.New("wtf")
+	raw, err := intfBox.GetInterfaces()
+	if err != nil {
+		return nil, err
+	}
+	var jsonIfs []struct {
+		Index             int32    `json:"index"`
+		MTU               int32    `json:"mtu"`
+		Name              string   `json:"name"`
+		Addresses         []string `json:"addresses"`
+		IsUp              bool     `json:"isUp"`
+		IsLoopback        bool     `json:"isLoopback"`
+		IsPointToPoint    bool     `json:"isPointToPoint"`
+		SupportsMulticast bool     `json:"supportsMulticast"`
+	}
+	if err = json.Unmarshal([]byte(raw), &jsonIfs); err != nil {
+		return nil, err
+	}
+	interfaces := make([]adapter.NetworkInterface, 0, len(jsonIfs))
+	for _, iface := range jsonIfs {
+		var flags net.Flags
+		if iface.IsUp {
+			flags |= net.FlagUp | net.FlagRunning
+		}
+		if iface.IsLoopback {
+			flags |= net.FlagLoopback
+		}
+		if iface.IsPointToPoint {
+			flags |= net.FlagPointToPoint
+		}
+		if iface.SupportsMulticast {
+			flags |= net.FlagMulticast
+		}
+		var prefixes []netip.Prefix
+		for _, addr := range iface.Addresses {
+			slash := strings.LastIndexByte(addr, '/')
+			if slash < 0 {
+				continue
+			}
+			ipPart, lenPart := addr[:slash], addr[slash:]
+			if pct := strings.IndexByte(ipPart, '%'); pct >= 0 {
+				ipPart = ipPart[:pct] // strip IPv6 zone (e.g. fe80::1%wlan0)
+			}
+			prefix, prefixErr := netip.ParsePrefix(ipPart + lenPart)
+			if prefixErr != nil {
+				continue
+			}
+			prefixes = append(prefixes, prefix)
+		}
+		interfaces = append(interfaces, adapter.NetworkInterface{
+			Interface: control.Interface{
+				Index:     int(iface.Index),
+				MTU:       int(iface.MTU),
+				Name:      iface.Name,
+				Flags:     flags,
+				Addresses: prefixes,
+			},
+			Type: C.InterfaceTypeOther,
+		})
+	}
+	return interfaces, nil
 }
 
 func (w *boxPlatformInterfaceWrapper) IncludeAllNetworks() bool {
