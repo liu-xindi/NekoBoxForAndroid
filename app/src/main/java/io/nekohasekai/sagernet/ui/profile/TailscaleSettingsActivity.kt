@@ -1,5 +1,6 @@
 package io.nekohasekai.sagernet.ui.profile
 
+import android.os.Build
 import android.os.Bundle
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
@@ -11,7 +12,7 @@ import moe.matsuri.nb4a.proxy.Type
 
 class TailscaleSettingsActivity : ProfileSettingsActivity<TailscaleBean>() {
 
-    override fun createEntity() = TailscaleBean()
+    override fun createEntity() = TailscaleBean().apply { hostname = Build.MODEL }
 
     private val pbm = PreferenceBindingManager()
     private val name = pbm.add(PreferenceBinding(Type.Text, "name"))

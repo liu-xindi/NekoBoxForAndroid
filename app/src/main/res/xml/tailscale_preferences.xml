@@ -15,8 +15,8 @@
         <EditTextPreference
             app:icon="@drawable/ic_hardware_router"
             app:key="controlURL"
-            app:title="@string/tailscale_control_url"
-            app:useSimpleSummaryProvider="true" />
+            app:summary="@string/tailscale_control_url_hint"
+            app:title="@string/tailscale_control_url" />
         <EditTextPreference
             app:icon="@drawable/ic_baseline_domain_24"
             app:key="hostname"

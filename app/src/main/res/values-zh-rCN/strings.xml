@@ -499,4 +499,15 @@
     <string name="minimize">最小化</string>
     <string name="app_list_permission_denied">无法读取已安装的应用。\n这通常是由于系统限制了应用的读取权限（例如某些中国厂商系统）。\n请在系统设置中授予权限。</string>
     <string name="open_app_settings">打开系统设置</string>
+    <string name="route_settings">路由设置</string>
+    <string name="tailscale_auth_key">认证密钥</string>
+    <string name="tailscale_control_url">控制服务器 URL</string>
+    <string name="tailscale_control_url_hint">留空则使用官方 Tailscale 服务器，仅自建 Headscale 时需填写。</string>
+    <string name="tailscale_hostname">主机名</string>
+    <string name="tailscale_ephemeral">临时节点</string>
+    <string name="tailscale_accept_routes">接受路由</string>
+    <string name="tailscale_exit_node">出口节点</string>
+    <string name="tailscale_exit_node_allow_lan_access">出口节点允许局域网访问</string>
+    <string name="tailscale_advertise_routes">通告路由</string>
+    <string name="tailscale_advertise_exit_node">通告为出口节点</string>
 </resources>

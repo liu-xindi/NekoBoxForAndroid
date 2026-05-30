@@ -455,6 +455,7 @@
     <string name="route_settings">Route Settings</string>
     <string name="tailscale_auth_key">Auth Key</string>
     <string name="tailscale_control_url">Control URL</string>
+    <string name="tailscale_control_url_hint">Leave empty for official Tailscale. Set only for self-hosted Headscale.</string>
     <string name="tailscale_hostname">Hostname</string>
     <string name="tailscale_ephemeral">Ephemeral</string>
     <string name="tailscale_accept_routes">Accept Routes</string>
