@@ -29,6 +29,7 @@ import io.nekohasekai.sagernet.fmt.tuic.TuicBean
 import io.nekohasekai.sagernet.fmt.tuic.toUri
 import io.nekohasekai.sagernet.fmt.v2ray.*
 import io.nekohasekai.sagernet.fmt.wireguard.WireGuardBean
+import io.nekohasekai.sagernet.fmt.tailscale.TailscaleBean
 import io.nekohasekai.sagernet.ktx.app
 import io.nekohasekai.sagernet.ui.profile.*
 import moe.matsuri.nb4a.SingBoxOptions.MultiplexOptions
@@ -66,6 +67,7 @@ data class ProxyEntity(
     var tuicBean: TuicBean? = null,
     var sshBean: SSHBean? = null,
     var wgBean: WireGuardBean? = null,
+    var tsBean: TailscaleBean? = null,
     var shadowTLSBean: ShadowTLSBean? = null,
     var anyTLSBean: AnyTLSBean? = null,
     var chainBean: ChainBean? = null,
@@ -82,6 +84,7 @@ data class ProxyEntity(
 
         const val TYPE_SSH = 17
         const val TYPE_WG = 18
+        const val TYPE_TAILSCALE = 23
 
         const val TYPE_TROJAN_GO = 7
         const val TYPE_NAIVE = 9
@@ -171,6 +174,7 @@ data class ProxyEntity(
             TYPE_HYSTERIA -> hysteriaBean = KryoConverters.hysteriaDeserialize(byteArray)
             TYPE_SSH -> sshBean = KryoConverters.sshDeserialize(byteArray)
             TYPE_WG -> wgBean = KryoConverters.wireguardDeserialize(byteArray)
+            TYPE_TAILSCALE -> tsBean = KryoConverters.tailscaleDeserialize(byteArray)
             TYPE_TUIC -> tuicBean = KryoConverters.tuicDeserialize(byteArray)
             TYPE_SHADOWTLS -> shadowTLSBean = KryoConverters.shadowTLSDeserialize(byteArray)
             TYPE_ANYTLS -> anyTLSBean = KryoConverters.anyTLSDeserialize(byteArray)
@@ -192,6 +196,7 @@ data class ProxyEntity(
         TYPE_HYSTERIA -> "Hysteria" + hysteriaBean!!.protocolVersion
         TYPE_SSH -> "SSH"
         TYPE_WG -> "WireGuard"
+        TYPE_TAILSCALE -> "Tailscale"
         TYPE_TUIC -> "TUIC"
         TYPE_SHADOWTLS -> "ShadowTLS"
         TYPE_ANYTLS -> "AnyTLS"
@@ -217,6 +222,7 @@ data class ProxyEntity(
             TYPE_HYSTERIA -> hysteriaBean
             TYPE_SSH -> sshBean
             TYPE_WG -> wgBean
+            TYPE_TAILSCALE -> tsBean
             TYPE_TUIC -> tuicBean
             TYPE_SHADOWTLS -> shadowTLSBean
             TYPE_ANYTLS -> anyTLSBean
@@ -238,6 +244,7 @@ data class ProxyEntity(
         return when (requireBean()) {
             is SSHBean -> false
             is WireGuardBean -> false
+            is TailscaleBean -> false
             is ShadowTLSBean -> false
             is NekoBean -> false
             is ConfigBean -> false
@@ -354,6 +361,7 @@ data class ProxyEntity(
         hysteriaBean = null
         sshBean = null
         wgBean = null
+        tsBean = null
         tuicBean = null
         shadowTLSBean = null
         anyTLSBean = null
@@ -417,6 +425,11 @@ data class ProxyEntity(
                 wgBean = bean
             }
 
+            is TailscaleBean -> {
+                type = TYPE_TAILSCALE
+                tsBean = bean
+            }
+
             is TuicBean -> {
                 type = TYPE_TUIC
                 tuicBean = bean
@@ -466,6 +479,7 @@ data class ProxyEntity(
                 TYPE_HYSTERIA -> HysteriaSettingsActivity::class.java
                 TYPE_SSH -> SSHSettingsActivity::class.java
                 TYPE_WG -> WireGuardSettingsActivity::class.java
+                TYPE_TAILSCALE -> TailscaleSettingsActivity::class.java
                 TYPE_TUIC -> TuicSettingsActivity::class.java
                 TYPE_SHADOWTLS -> ShadowTLSSettingsActivity::class.java
                 TYPE_ANYTLS -> AnyTLSSettingsActivity::class.java

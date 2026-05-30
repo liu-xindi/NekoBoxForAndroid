@@ -1,0 +1,56 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        app:icon="@drawable/ic_social_emoji_symbols"
+        app:key="name"
+        app:title="@string/profile_name"
+        app:useSimpleSummaryProvider="true" />
+
+    <PreferenceCategory app:title="@string/proxy_cat">
+        <EditTextPreference
+            app:dialogLayout="@layout/layout_password_dialog"
+            app:icon="@drawable/ic_baseline_vpn_key_24"
+            app:key="authKey"
+            app:title="@string/tailscale_auth_key" />
+        <EditTextPreference
+            app:icon="@drawable/ic_hardware_router"
+            app:key="controlURL"
+            app:title="@string/tailscale_control_url"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:icon="@drawable/ic_baseline_domain_24"
+            app:key="hostname"
+            app:title="@string/tailscale_hostname"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreference
+            app:icon="@drawable/baseline_public_24"
+            app:key="ephemeral"
+            app:title="@string/tailscale_ephemeral" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/route_settings">
+        <SwitchPreference
+            app:icon="@drawable/baseline_public_24"
+            app:key="acceptRoutes"
+            app:title="@string/tailscale_accept_routes" />
+        <EditTextPreference
+            app:icon="@drawable/ic_baseline_fingerprint_24"
+            app:key="exitNode"
+            app:title="@string/tailscale_exit_node"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreference
+            app:icon="@drawable/baseline_public_24"
+            app:key="exitNodeAllowLANAccess"
+            app:title="@string/tailscale_exit_node_allow_lan_access" />
+        <EditTextPreference
+            app:icon="@drawable/ic_baseline_domain_24"
+            app:key="advertiseRoutes"
+            app:title="@string/tailscale_advertise_routes"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreference
+            app:icon="@drawable/baseline_public_24"
+            app:key="advertiseExitNode"
+            app:title="@string/tailscale_advertise_exit_node" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
