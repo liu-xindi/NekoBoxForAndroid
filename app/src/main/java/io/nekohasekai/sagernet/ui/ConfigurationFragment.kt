@@ -430,6 +430,10 @@ class ConfigurationFragment @JvmOverloads constructor(
                 startActivity(Intent(requireActivity(), WireGuardSettingsActivity::class.java))
             }
 
+            R.id.action_new_tailscale -> {
+                startActivity(Intent(requireActivity(), TailscaleSettingsActivity::class.java))
+            }
+
             R.id.action_new_shadowtls -> {
                 startActivity(Intent(requireActivity(), ShadowTLSSettingsActivity::class.java))
             }
