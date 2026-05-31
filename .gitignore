@@ -22,4 +22,5 @@ jniLibs/
 # tooling / editor / transient
 .codegraph/
 .cursor/
+.kotlin/
 libcore/gomobile/
