@@ -18,3 +18,8 @@ jniLibs/
 
 # submodules
 /external
+
+# tooling / editor / transient
+.codegraph/
+.cursor/
+libcore/gomobile/
