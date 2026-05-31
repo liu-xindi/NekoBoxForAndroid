@@ -712,6 +712,15 @@ fun buildConfig(
                     ip_is_private = true
                 })
             }
+            // Tailscale endpoint rewrites inbound (被控端) destination to loopback;
+            // route loopback direct so it reaches this device's own service
+            // instead of being sent out through the proxy.
+            if (endpoints.isNotEmpty()) {
+                route.rules.add(Rule_DefaultOptions().apply {
+                    ip_cidr = listOf("127.0.0.0/8", "::1/128")
+                    outbound = TAG_DIRECT
+                })
+            }
             // block mcast
             route.rules.add(Rule_DefaultOptions().apply {
                 ip_cidr = listOf("224.0.0.0/3", "ff00::/8")
