@@ -8,6 +8,26 @@ sing-box / universal proxy toolchain for Android.
 
 一款使用 sing-box 的 Android 通用代理软件.
 
+## 关于本 Fork / About This Fork
+
+这是 [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid) 的一个 fork,主要改动:
+
+- **内核升级**:使用 [Clare113/sing-box](https://github.com/Clare113/sing-box) 的 `1.12.25-neko-1`(官方 v1.12.25 基底 + Matsuri neko 补丁),取代原版的 1.12.19-neko。
+- **新增 Tailscale GUI**:可在应用内直接创建 Tailscale 节点配置(auth key / control URL / hostname / ephemeral / accept routes / exit node / advertise routes),已真机验证主动访问 tailnet 设备与被控端反向访问(如 ADB over Tailscale)。
+- **独立包名** `com.cheng31.nekobox`,可与官方 NekoBox 并存安装(不会互相覆盖)。
+
+下载:[Releases](https://github.com/Clare113/NekoBoxForAndroid/releases)
+
+This is a fork of [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid). Main changes:
+
+- **Kernel**: [Clare113/sing-box](https://github.com/Clare113/sing-box) `1.12.25-neko-1` (official v1.12.25 base + Matsuri neko patches), replacing the original 1.12.19-neko.
+- **Tailscale GUI**: create a Tailscale endpoint profile in-app (auth key / control URL / hostname / ephemeral / accept routes / exit node / advertise routes); verified on-device for both outbound (reaching tailnet devices) and inbound (e.g. ADB over Tailscale).
+- **App id** `com.cheng31.nekobox`, so it installs alongside the official NekoBox.
+
+Downloads: [Releases](https://github.com/Clare113/NekoBoxForAndroid/releases)
+
+---
+
 ## 下载 / Downloads
 
 [![GitHub All Releases](https://img.shields.io/github/downloads/Matsuridayo/NekoBoxForAndroid/total?label=downloads-total&logo=github&style=flat-square)](https://github.com/Matsuridayo/NekoBoxForAndroid/releases)
@@ -41,6 +61,7 @@ https://matsuridayo.github.io
 * TUIC
 * Hysteria 1/2
 * WireGuard
+* Tailscale (endpoint)
 * Trojan-Go (trojan-go-plugin)
 * NaïveProxy (naive-plugin)
 * Mieru (mieru-plugin)
