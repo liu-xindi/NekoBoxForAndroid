@@ -9,7 +9,7 @@ pushd ..
 ####
 
 if [ ! -d "sing-box" ]; then
-  git clone --no-checkout https://github.com/Clare113/sing-box.git
+  git clone --no-checkout https://github.com/liu-xindi/sing-box.git
 fi
 pushd sing-box
 git checkout "$COMMIT_SING_BOX"
@@ -18,7 +18,7 @@ popd
 ####
 
 if [ ! -d "libneko" ]; then
-  git clone --no-checkout https://github.com/Clare113/libneko.git
+  git clone --no-checkout https://github.com/liu-xindi/libneko.git
 fi
 pushd libneko
 git checkout "$COMMIT_LIBNEKO"
