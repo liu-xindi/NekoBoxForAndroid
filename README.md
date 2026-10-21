@@ -1,32 +1,44 @@
-# NekoBox for Android
+# NekoBox for Android (liu-xindi fork)
 
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Releases](https://img.shields.io/github/v/release/MatsuriDayo/NekoBoxForAndroid)](https://github.com/MatsuriDayo/NekoBoxForAndroid/releases)
+[![Releases](https://img.shields.io/github/v/release/liu-xindi/NekoBoxForAndroid)](https://github.com/liu-xindi/NekoBoxForAndroid/releases)
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-orange.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-sing-box / universal proxy toolchain for Android.
+基于 [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid) 的 fork,加入了应用内的 Tailscale 配置界面.
 
-一款使用 sing-box 的 Android 通用代理软件.
+- 内核: [liu-xindi/sing-box](https://github.com/liu-xindi/sing-box) `1.12.25-neko-1`,即官方 v1.12.25 加上 MatsuriDayo neko 补丁 (上游为 1.12.19-neko).
+- Tailscale: 可在应用内新建 Tailscale endpoint 配置,字段包括 auth key、control URL、hostname、ephemeral、accept routes、exit node、advertise routes. Tailscale 库版本为 1.92.4 (`sagernet/tailscale v1.92.4-sing-box-1.13-mod.10`),支持用 `sha256-raw` 固定证书的自建 DERP.
+- 包名为 `com.cheng31.nekobox`,可与官方 NekoBox 同时安装.
 
-## 关于本 Fork / About This Fork
+要访问 tailnet 内的地址,需要添加一条路由规则 (例如匹配 IP 段 `100.64.0.0/10`,不支持 MagicDNS),出站选择 Tailscale 配置.
 
-这是 [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid) 的一个 fork,主要改动:
-
-- **内核升级**:使用 [Clare113/sing-box](https://github.com/Clare113/sing-box) 的 `1.12.25-neko-1`(官方 v1.12.25 基底 + Matsuri neko 补丁),取代原版的 1.12.19-neko。
-- **新增 Tailscale GUI**:可在应用内直接创建 Tailscale 节点配置(auth key / control URL / hostname / ephemeral / accept routes / exit node / advertise routes),已真机验证主动访问 tailnet 设备与被控端反向访问(如 ADB over Tailscale)。
-- **独立包名** `com.cheng31.nekobox`,可与官方 NekoBox 并存安装(不会互相覆盖)。
-
-下载:[Releases](https://github.com/Clare113/NekoBoxForAndroid/releases)
-
-This is a fork of [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid). Main changes:
-
-- **Kernel**: [Clare113/sing-box](https://github.com/Clare113/sing-box) `1.12.25-neko-1` (official v1.12.25 base + Matsuri neko patches), replacing the original 1.12.19-neko.
-- **Tailscale GUI**: create a Tailscale endpoint profile in-app (auth key / control URL / hostname / ephemeral / accept routes / exit node / advertise routes); verified on-device for both outbound (reaching tailnet devices) and inbound (e.g. ADB over Tailscale).
-- **App id** `com.cheng31.nekobox`, so it installs alongside the official NekoBox.
-
-Downloads: [Releases](https://github.com/Clare113/NekoBoxForAndroid/releases)
+下载: [Releases](https://github.com/liu-xindi/NekoBoxForAndroid/releases)\
+问题反馈: [本仓库的 Issues](https://github.com/liu-xindi/NekoBoxForAndroid/issues)
 
 ---
+
+A fork of [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid) with an in-app Tailscale profile editor.
+
+- Kernel: [liu-xindi/sing-box](https://github.com/liu-xindi/sing-box) `1.12.25-neko-1`, i.e. official v1.12.25 plus the MatsuriDayo neko patches (upstream ships 1.12.19-neko).
+- Tailscale: create a Tailscale endpoint profile in the app, with auth key, control URL, hostname, ephemeral, accept routes, exit node and advertise routes. The Tailscale library is 1.92.4 (`sagernet/tailscale v1.92.4-sing-box-1.13-mod.10`), which supports self-hosted DERP relays pinned with `sha256-raw`.
+- Package name is `com.cheng31.nekobox`, so it installs alongside the official NekoBox.
+
+To reach tailnet addresses, add a route rule (e.g. matching the IP range `100.64.0.0/10`; MagicDNS is not supported) whose outbound is the Tailscale profile.
+
+Downloads: [Releases](https://github.com/liu-xindi/NekoBoxForAndroid/releases)\
+Issues: [this repository's Issues](https://github.com/liu-xindi/NekoBoxForAndroid/issues)
+
+## Credits
+
+- [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid)
+- [SagerNet/sing-box](https://github.com/SagerNet/sing-box)
+- [tailscale/tailscale](https://github.com/tailscale/tailscale)
+
+---
+
+> 以下为上游 README 原文.
+>
+> The following is the upstream README.
 
 ## 下载 / Downloads
 
@@ -61,7 +73,6 @@ https://matsuridayo.github.io
 * TUIC
 * Hysteria 1/2
 * WireGuard
-* Tailscale (endpoint)
 * Trojan-Go (trojan-go-plugin)
 * NaïveProxy (naive-plugin)
 * Mieru (mieru-plugin)
